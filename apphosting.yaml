@@ -1,0 +1,25 @@
+runConfig:
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0
+  maxInstances: 2
+  concurrency: 80
+
+env:
+  - variable: OWNER_EMAIL
+    value: davenewbergai@gmail.com
+    availability:
+      - RUNTIME
+  - variable: NEXT_PUBLIC_OWNER_EMAIL
+    value: davenewbergai@gmail.com
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: GOOGLE_CALENDAR_ID
+    value: davenewbergai@gmail.com
+    availability:
+      - RUNTIME
+  - variable: GOOGLE_CALENDAR_TIMEZONE
+    value: America/Los_Angeles
+    availability:
+      - RUNTIME
