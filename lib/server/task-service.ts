@@ -37,17 +37,17 @@ export async function createTaskAsAssistant(uid: string, input: Record<string, u
     tx.set(taskRef, data);
     tx.set(r.events.doc(), { taskId: taskRef.id, type: "created", at: now, metadata: { source: "assistant" } });
   });
-  return { id: taskRef.id, ...serialize(data) };
+  return { id: taskRef.id, ...(serialize(data) as Record<string, unknown>) };
 }
 
 export async function listTasksAsAssistant(uid: string) {
   const snap = await refs(uid).tasks.get();
-  return snap.docs.map((d) => ({ id: d.id, ...serialize(d.data()) }));
+  return snap.docs.map((d) => ({ id: d.id, ...(serialize(d.data()) as Record<string, unknown>) }));
 }
 
 export async function getTodayAsAssistant(uid: string) {
   const [taskSnap, runtimeSnap] = await Promise.all([refs(uid).tasks.get(), refs(uid).runtime.get()]);
-  const tasks = taskSnap.docs.map((d) => ({ id: d.id, ...serialize(d.data()) })) as Array<Record<string, unknown>>;
+  const tasks = taskSnap.docs.map((d) => ({ id: d.id, ...(serialize(d.data()) as Record<string, unknown>) })) as Array<Record<string, unknown>>;
   const now = new Date();
   const today = tasks.filter((t) => {
     const scheduled = t.scheduledStart ? new Date(String(t.scheduledStart)) : null;
